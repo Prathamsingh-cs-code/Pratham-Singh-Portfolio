@@ -187,7 +187,7 @@ function initCustomizerInputs() {
   if (imgPrefixInput) imgPrefixInput.value = customizerSettings.imgPrefix || "ezgif-frame-";
   if (imgExtInput) imgExtInput.value = customizerSettings.imgExt || ".jpg";
   if (imgFramesInput) imgFramesInput.value = customizerSettings.totalFrames || 103;
-  if (sheetUrlInput) sheetUrlInput.value = customizerSettings.googleSheetUrl || "";
+  if (sheetUrlInput) sheetUrlInput.value = customizerSettings.googleSheetUrl || "https://script.google.com/macros/s/AKfycbxdHmeRrXS_Av-mHHdRFQ1tDvSIqoQUcUCuVQV-k-iERn44seg0YcXMIT5AFAa6zevgIw/exec";
   
   // Set theme active button
   const themeMode = customizerSettings.themeMode || "dark";
@@ -652,7 +652,7 @@ document.addEventListener("DOMContentLoaded", () => {
         message: document.getElementById("booking-message")?.value.trim()
       };
 
-      const googleScriptUrl = customizerSettings.googleSheetUrl;
+      const googleScriptUrl = customizerSettings.googleSheetUrl || "https://script.google.com/macros/s/AKfycbxdHmeRrXS_Av-mHHdRFQ1tDvSIqoQUcUCuVQV-k-iERn44seg0YcXMIT5AFAa6zevgIw/exec";
 
       if (googleScriptUrl) {
         // Submit to Google Sheets (mode: 'no-cors' works 100% of the time, avoiding browser CORS blocks)
