@@ -282,8 +282,20 @@ function revealSite() {
   }
 }
 
-// Update parallax frames based on scroll
+let isScrollTicking = false;
+
+// Update parallax frames based on scroll (throttled via requestAnimationFrame)
 function handleParallaxScroll() {
+  if (!isScrollTicking) {
+    window.requestAnimationFrame(() => {
+      updateParallaxFrame();
+      isScrollTicking = false;
+    });
+    isScrollTicking = true;
+  }
+}
+
+function updateParallaxFrame() {
   const heroZone = document.getElementById("hero-zone");
   if (!heroZone) return;
 
@@ -430,6 +442,29 @@ document.addEventListener("DOMContentLoaded", () => {
   const customizerToggle = document.getElementById("customizer-toggle");
   const customizerDrawer = document.getElementById("customizer-drawer");
   const customizerClose = document.getElementById("customizer-close");
+
+  // Show customizer only if URL contains ?edit=true
+  const urlParams = new URLSearchParams(window.location.search);
+  const showCustomizer = urlParams.get("edit") === "true";
+  
+  if (showCustomizer && customizerToggle) {
+    customizerToggle.style.display = "flex";
+  }
+
+  // Keyboard shortcut Ctrl+Shift+C to toggle customizer button visibility
+  document.addEventListener("keydown", (e) => {
+    if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "c") {
+      e.preventDefault();
+      if (customizerToggle) {
+        const isHidden = window.getComputedStyle(customizerToggle).display === "none";
+        customizerToggle.style.display = isHidden ? "flex" : "none";
+        if (isHidden && customizerDrawer) {
+          customizerDrawer.classList.add("open");
+          initCustomizerInputs();
+        }
+      }
+    }
+  });
 
   if (customizerToggle && customizerDrawer) {
     customizerToggle.addEventListener("click", () => {

@@ -186,8 +186,12 @@ h1, h2, h3, h4, h5, h6 {
   height: 100%;
   object-fit: cover;
   opacity: 0;
-  transition: opacity 0.05s ease-out;
+  transition: opacity 0.08s ease-in-out;
   z-index: 1;
+  will-change: opacity;
+  backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);
+  image-rendering: -webkit-optimize-contrast;
 }
 
 .hero-bg-frame.active {
@@ -1236,7 +1240,7 @@ footer {
   border: 1px solid var(--border-color);
   color: var(--accent-color);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), var(--accent-glow);
-  display: flex;
+  display: none; /* Hidden by default to restrict public access */
   align-items: center;
   justify-content: center;
   cursor: pointer;
