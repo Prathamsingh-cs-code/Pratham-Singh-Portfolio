@@ -543,7 +543,7 @@
           Start building animated websites <span>with a strong backend.</span>
         </h2>
         <div class="cta-buttons">
-          <a href="mailto:prathamsinghcse333@gmail.com" class="btn btn-primary" id="field-cta-btn1">Work with Pratham Singh</a>
+          <a href="#" class="btn btn-primary trigger-booking" id="field-cta-btn1">Work with Pratham Singh</a>
           <a href="#" class="btn btn-secondary" id="field-cta-btn2">Explore Full-Stack 3D Website</a>
         </div>
       </div>
@@ -681,11 +681,80 @@
         </div>
       </div>
 
+      <!-- Google Sheets API URL Config -->
+      <div class="custom-group">
+        <label class="custom-label">Google Sheet Web App URL</label>
+        <input type="url" id="input-sheet-url" class="custom-input" placeholder="e.g. https://script.google.com/macros/s/.../exec">
+        <span style="font-size:0.7rem; color:var(--text-muted); margin-top:0.4rem; display:block; line-height:1.3;">
+          Deploy a Google Apps Script in your client sheet and paste the macro web app deployment URL here.
+        </span>
+      </div>
+
     </div>
 
     <div class="customizer-footer">
       <button class="btn btn-secondary" id="btn-customizer-reset">Reset</button>
       <button class="btn btn-primary" id="btn-customizer-save">Apply Code</button>
+    </div>
+  </div>
+
+  <!-- Booking Modal -->
+  <div class="booking-modal-overlay" id="booking-modal">
+    <div class="booking-modal-card">
+      <button class="booking-modal-close" id="booking-close" aria-label="Close Booking Modal">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+      <h3 class="booking-modal-title">Book a <span>Consultation</span></h3>
+      <p class="booking-modal-subtitle">Tell me about your project, and let's build something next-gen.</p>
+      
+      <form id="booking-form">
+        <div class="form-row">
+          <div class="form-field">
+            <label class="form-label" for="booking-name">Full Name</label>
+            <input type="text" id="booking-name" class="form-input" required placeholder="e.g. John Doe">
+          </div>
+          <div class="form-field">
+            <label class="form-label" for="booking-email">Email Address</label>
+            <input type="email" id="booking-email" class="form-input" required placeholder="e.g. john@company.com">
+          </div>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-field">
+            <label class="form-label" for="booking-project">Project Type</label>
+            <select id="booking-project" class="form-input" required style="background-color:#121215;">
+              <option value="Full Stack Development">Full Stack Development</option>
+              <option value="Generative AI Integration">Generative AI Integration</option>
+              <option value="SaaS Workflow Automation">SaaS Workflow Automation</option>
+              <option value="DevOps & Cloud Scale">DevOps & Cloud Scale</option>
+              <option value="Consulting / Freelance">Consulting / Freelance</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label class="form-label" for="booking-date">Preferred Date</label>
+            <input type="date" id="booking-date" class="form-input" required>
+          </div>
+        </div>
+        
+        <div class="form-field" style="margin-top:1.5rem;">
+          <label class="form-label" for="booking-message">Project Brief / Message</label>
+          <textarea id="booking-message" class="form-input" rows="4" required placeholder="Describe your project goals, required tech, and timeline..."></textarea>
+        </div>
+        
+        <button type="submit" class="btn btn-primary" style="width:100%; margin-top:2rem;" id="booking-submit-btn">
+          Confirm Booking
+        </button>
+      </form>
+      
+      <!-- Success Message -->
+      <div class="booking-success-message" id="booking-success">
+        <div class="success-icon-wrapper">
+          <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        </div>
+        <h4>Booking Confirmed!</h4>
+        <p>Your project brief has been sent. Pratham will contact you shortly to schedule our sync.</p>
+        <button class="btn btn-secondary" id="booking-success-close" style="margin-top:1.5rem;">Close</button>
+      </div>
     </div>
   </div>
 

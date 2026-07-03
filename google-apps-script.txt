@@ -1,0 +1,65 @@
+GOOGLE APPS SCRIPT CODE - PRATHAM PORTFOLIO BOOKINGS
+--------------------------------------------------
+
+Follow these steps to feed your portfolio booking client data directly into Google Sheets:
+
+Step 1: Open Google Sheets
+Create a new Google Sheet (or use your existing sheet) where you want booking entries to go.
+
+Step 2: Open Apps Script
+In the top menu, go to:
+Extensions -> Apps Script
+
+Step 3: Paste Code
+Delete any default code in the editor, and paste the following code exactly:
+
+------------------ COPY CODE BELOW THIS LINE ------------------
+function doPost(e) {
+  try {
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    var data = JSON.parse(e.postData.contents);
+    
+    // Add headers if sheet is empty
+    if (sheet.getLastRow() === 0) {
+      sheet.appendRow(["Timestamp", "Name", "Email", "Project Type", "Preferred Date", "Message"]);
+    }
+    
+    // Append the client booking row
+    sheet.appendRow([
+      new Date(),
+      data.name,
+      data.email,
+      data.projectType,
+      data.preferredDate,
+      data.message
+    ]);
+    
+    return ContentService.createTextOutput(JSON.stringify({ "result": "success" }))
+                         .setMimeType(ContentService.MimeType.JSON)
+                         .addHeader("Access-Control-Allow-Origin", "*");
+  } catch (error) {
+    return ContentService.createTextOutput(JSON.stringify({ "result": "error", "error": error.toString() }))
+                         .setMimeType(ContentService.MimeType.JSON)
+                         .addHeader("Access-Control-Allow-Origin", "*");
+  }
+}
+------------------ COPY CODE ABOVE THIS LINE ------------------
+
+Step 4: Deploy the Web App
+1. Click the "Deploy" button in the top-right corner of the Apps Script interface.
+2. Select "New deployment".
+3. Click the gear icon next to "Select type" and choose "Web app".
+4. Set the configurations:
+   - Description: Portfolio Bookings API
+   - Execute as: Me (your-email@gmail.com)
+   - Who has access: Anyone (This is critical so the form can submit from the browser)
+5. Click "Deploy".
+6. Copy the "Web app URL" (it will look like: https://script.google.com/macros/s/XXXXX/exec).
+
+Step 5: Add URL to your Customizer
+1. Go to your local preview URL: http://localhost:3000/?edit=true (or press Ctrl + Shift + C on the site).
+2. Open the Site Console drawer.
+3. Paste the Web App URL into the "Google Sheet Web App URL" field.
+4. Click "Apply Code" to save.
+
+Done! Any bookings made on the website will now instantly populate as new rows in your Google Sheet.
