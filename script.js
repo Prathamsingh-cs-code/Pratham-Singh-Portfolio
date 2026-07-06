@@ -652,7 +652,7 @@ document.addEventListener("DOMContentLoaded", () => {
         message: document.getElementById("booking-message")?.value.trim()
       };
 
-      const googleScriptUrl = customizerSettings.googleSheetUrl || "https://script.google.com/macros/s/AKfycbxdHmeRrXS_Av-mHHdRFQ1tDvSIqoQUcUCuVQV-k-iERn44seg0YcXMIT5AFAa6zevgIw/exec";
+      const googleScriptUrl = customizerSettings.googleSheetUrl || "https://script.google.com/macros/s/AKfycbwOEn86jWtiuEmGIHXnTImRsHQXFmmtN90nWo8vupSkdfYFlJLIxNZ3uvsR0TWaXPAAfQ/exec";
 
       // Use URLSearchParams — this is what Google Apps Script actually reads from doPost(e)
       const params = new URLSearchParams();
