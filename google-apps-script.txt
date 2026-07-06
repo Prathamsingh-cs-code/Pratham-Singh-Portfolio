@@ -4,6 +4,76 @@ GOOGLE APPS SCRIPT CODE - PRATHAM PORTFOLIO BOOKINGS
 Follow these steps to feed your portfolio booking client data directly into Google Sheets:
 
 Step 1: Open Google Sheets
+Open your sheet: https://docs.google.com/spreadsheets/d/1e8bEK4x1SkBvVw3sW4dIClv5WdvmDMk0nJ06qptYmWo/edit
+
+Step 2: Open Apps Script
+In the top menu, go to:
+Extensions -> Apps Script
+
+Step 3: Paste Code
+Delete any existing code in the editor, and paste the following EXACTLY:
+
+------------------ COPY CODE BELOW THIS LINE ------------------
+function doPost(e) {
+  try {
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+
+    // Read URL-encoded form parameters (sent by portfolio booking form)
+    var name         = e.parameter.name         || "";
+    var email        = e.parameter.email        || "";
+    var projectType  = e.parameter.projectType  || "";
+    var preferredDate = e.parameter.preferredDate || "";
+    var message      = e.parameter.message      || "";
+
+    // Add headers automatically if sheet is empty
+    if (sheet.getLastRow() === 0) {
+      sheet.appendRow(["Timestamp", "Name", "Email", "Project Type", "Preferred Date", "Message"]);
+    }
+
+    // Append the client booking row
+    sheet.appendRow([
+      new Date().toLocaleString(),
+      name,
+      email,
+      projectType,
+      preferredDate,
+      message
+    ]);
+
+    return ContentService
+      .createTextOutput(JSON.stringify({ result: "success" }))
+      .setMimeType(ContentService.MimeType.JSON);
+
+  } catch (error) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ result: "error", error: error.toString() }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+------------------ COPY CODE ABOVE THIS LINE ------------------
+
+Step 4: Save the Script
+Press Ctrl+S (or click the floppy disk icon).
+
+Step 5: Deploy / Redeploy as Web App
+IMPORTANT: Every time you update the script code, you must create a NEW deployment.
+
+1. Click Deploy (top right) -> Manage deployments.
+2. Click the pencil/edit icon on your existing deployment.
+3. Change "Version" to "New version".
+4. Make sure:
+   - Execute as: Me (your email)
+   - Who has access: Anyone
+5. Click Deploy -> Done.
+6. The Web App URL stays the same — no need to change anything in the portfolio.
+
+Step 6: Done!
+Submit a test booking from your portfolio. Within seconds, a new row should appear in your Google Sheet.
+
+
+Follow these steps to feed your portfolio booking client data directly into Google Sheets:
+
+Step 1: Open Google Sheets
 Create a new Google Sheet (or use your existing sheet) where you want booking entries to go.
 
 Step 2: Open Apps Script

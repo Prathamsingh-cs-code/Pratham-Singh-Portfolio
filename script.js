@@ -641,7 +641,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const originalBtnText = bookingSubmitBtn ? bookingSubmitBtn.innerText : "Confirm Booking";
       if (bookingSubmitBtn) {
         bookingSubmitBtn.disabled = true;
-        bookingSubmitBtn.innerText = "Processing booking...";
+        bookingSubmitBtn.innerText = "Sending booking...";
       }
 
       const formData = {
@@ -654,31 +654,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const googleScriptUrl = customizerSettings.googleSheetUrl || "https://script.google.com/macros/s/AKfycbxdHmeRrXS_Av-mHHdRFQ1tDvSIqoQUcUCuVQV-k-iERn44seg0YcXMIT5AFAa6zevgIw/exec";
 
-      if (googleScriptUrl) {
-        // Submit to Google Sheets (mode: 'no-cors' works 100% of the time, avoiding browser CORS blocks)
-        fetch(googleScriptUrl, {
-          method: "POST",
-          mode: "no-cors",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(formData)
-        })
-        .then(() => {
-          showSuccessMessage();
-        })
-        .catch(err => {
-          console.error("Booking submission error:", err);
-          // Standard fallback showing success since no-cors is opaque
-          showSuccessMessage();
-        });
-      } else {
-        // Fallback demo mode if sheet URL isn't configured
-        console.warn("Google Sheet Web App URL not set in customizer. Form submitted in DEMO mode.", formData);
-        setTimeout(() => {
-          showSuccessMessage();
-        }, 1000);
-      }
+      // Use URLSearchParams — this is what Google Apps Script actually reads from doPost(e)
+      const params = new URLSearchParams();
+      params.append("name", formData.name);
+      params.append("email", formData.email);
+      params.append("projectType", formData.projectType);
+      params.append("preferredDate", formData.preferredDate);
+      params.append("message", formData.message);
+
+      fetch(googleScriptUrl, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: params.toString()
+      })
+      .then(() => {
+        showSuccessMessage();
+      })
+      .catch(() => {
+        showSuccessMessage();
+      });
 
       function showSuccessMessage() {
         if (bookingSubmitBtn) {
